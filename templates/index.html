@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SecuLog AI</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      transition: background 0.2s;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 24px 30px;
+      background: #fff;
+      box-shadow: 0 2px 16px #0001;
+      border-radius: 16px;
+      transition: background 0.2s, color 0.2s;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .subheader {
+      text-align: center;
+      color: #666;
+      font-size: 1.1em;
+      margin-bottom: 24px;
+    }
+    form {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 16px;
+      transition: background 0.2s, color 0.2s;
+    }
+    th, td {
+      padding: 8px 14px;
+      border: 1px solid #222;
+      text-align: center;
+    }
+    th {
+      background: #376a89;
+      color: #fff;
+      font-weight: 600;
+    }
+    .legend {
+      margin-top: 18px;
+      font-size: 0.95em;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 0.92em;
+      color: #888;
+    }
+    .footer a {
+      color: #376a89;
+      text-decoration: none;
+    }
+    /* --- Dark Mode Styles --- */
+    body.darkmode {
+      background: #181c21;
+    }
+    .darkmode .container {
+      background: #22262b;
+      color: #f1f3f4;
+    }
+    .darkmode th {
+      background: #28374d;
+      color: #f1f3f4;
+    }
+    .darkmode td, .darkmode th {
+      border-color: #444;
+    }
+    .darkmode .footer,
+    .darkmode .subheader {
+      color: #aaa;
+    }
+    .darkmode .footer a {
+      color: #80b4ff;
+    }
+    /* Highlight colors */
+    .brute-force-row {
+      background-color: #b8d6f8 !important;
+    }
+    .suspicious-row {
+      background-color: #ffb3b3 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SecuLog AI</h1>
+    <div class="subheader">by Teshera Kimbrough</div>
+    <!-- Dark Mode Toggle -->
+    <div style="text-align:right;margin-bottom:8px;">
+      <label style="font-size:0.95em;cursor:pointer;">
+        <input type="checkbox" id="toggle-darkmode" style="vertical-align:middle;margin-right:6px;">
+        Dark Mode
+      </label>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="logfile" required />
+      <input type="submit" value="Analyze" />
+    </form>
+    {% if logs is not none and logs.shape[0] > 0 %}
+      <h2>Parsed Logs:</h2>
+      <table>
+        <tr>
+          {% for col in logs.columns %}
+            {% if col not in ['suspicious', 'brute_force'] %}
+              <th>{{ col }}</th>
+            {% endif %}
+          {% endfor %}
+        </tr>
+        {% for row in logs.to_dict('records') %}
+          <tr
+            class="{% if row['brute_force'] %}brute-force-row{% elif row['suspicious'] %}suspicious-row{% endif %}"
+          >
+            {% for col in logs.columns %}
+              {% if col not in ['suspicious', 'brute_force'] %}
+                <td>{{ row[col] }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+
+      {% if event_chart %}
+        <h2>Event Type Distribution</h2>
+        {{ event_chart|safe }}
+      {% endif %}
+
+      {% if top_ip_chart %}
+        <h2>Top 5 Source IPs</h2>
+        {{ top_ip_chart|safe }}
+      {% endif %}
+
+      <div class="legend">
+        <span style="background-color:#ffb3b3;padding:2px 6px;">&nbsp;</span>
+        Red: suspicious ("denied" events)<br>
+        <span style="background-color:#b8d6f8;padding:2px 6px;">&nbsp;</span>
+        Blue: possible brute-force (same IP denied 3+ times)
+      </div>
+    {% elif logs is not none %}
+      <p>No logs found in file.</p>
+    {% endif %}
+    <div class="footer">
+      &copy; 2025 Teshera Kimbrough &mdash; <a href="https://github.com/tesherakimbrough" target="_blank">GitHub</a>
+    </div>
+  </div>
+  <script>
+    // Simple dark mode toggle logic
+    const checkbox = document.getElementById('toggle-darkmode');
+    const body = document.body;
+    // Remember preference across reloads
+    if(localStorage.getItem('darkmode') === 'true'){
+      body.classList.add('darkmode');
+      checkbox.checked = true;
+    }
+    checkbox.addEventListener('change', function(){
+      if(this.checked){
+        body.classList.add('darkmode');
+        localStorage.setItem('darkmode', 'true');
+      } else {
+        body.classList.remove('darkmode');
+        localStorage.setItem('darkmode', 'false');
+      }
+    });
+  </script>
+</body>
+</html>
