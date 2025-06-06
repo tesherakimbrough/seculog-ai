@@ -4,4 +4,8 @@ plotly
 scikit-learn
 matplotlib
 jinja2
+ststreamlit
+sentence-transformers
+ollama
+
 
