@@ -1,11 +1,14 @@
 flask
-pandas
-plotly
-scikit-learn
+pandas>=1.5.3
+plotly>=5.11.0
+scikit-learn>=1.2.2
 matplotlib
 jinja2
-ststreamlit
-sentence-transformers
-ollama
+streamlit>=1.30.0
+sentence-transformers>=2.2.2
+torch==1.13.1
+
+
+
 
 

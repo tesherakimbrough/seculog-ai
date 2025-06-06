@@ -37,6 +37,26 @@
 
 ---
 
+## 🤖 AI-Powered Features (NEW)
+
+SecuLog AI now integrates **AI and ML** to provide deeper insights into your security logs:
+
+- **Semantic Search:**  
+  Use natural language queries to search across logs using vector embeddings and AI-powered search.
+
+- **LLM-Based Summarization:**  
+  Automatically generate human-readable summaries of log activity, highlighting suspicious patterns and key events.
+
+- **AI-Based Anomaly Detection:**  
+  Detect unusual patterns in log data with advanced ML models (Isolation Forest, Autoencoders).
+
+- **(Beta) RAG-Powered Security Q&A:**  
+  Ask natural language security questions — AI combines your log data with cybersecurity knowledge to generate actionable answers.
+
+These AI features make SecuLog AI a powerful tool for both professional security analysts and learners exploring AI + cybersecurity.
+
+---
+
 ## 🚨 Use Cases / Impact
 
 - **Security teams:** Rapidly detect brute-force attempts and denied access patterns
@@ -47,8 +67,8 @@
 
 ## 💡 Why I Built This
 
-I wanted to bridge my IT security experience with data analytics and AI engineering,  
-so I built SecuLog AI as a real-world tool to help security teams spot threats quickly—while expanding my Python and web development skills.
+I wanted to bridge my IT security experience with data analytics, AI, and ML engineering,
+so I built SecuLog AI as a real-world tool to help security teams spot threats quickly—while expanding my skills in AI-powered log analysis and intelligent security tools.
 
 ---
 
@@ -84,6 +104,9 @@ Visualizations help quickly spot trends and suspicious activity in your logs.
 | Light Mode | Dark Mode |
 |:----------:|:---------:|
 | ![Light Mode](screenshots/lightmode.png) | ![Dark Mode](screenshots/darkmode.png) |
+
+**Live AI Demo Features:** Try out semantic search, LLM-based summarization, and security Q&A on your own logs!
+
 ---
 ## 🛡️ How It Works
 
