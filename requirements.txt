@@ -1,12 +1,13 @@
-flask
+streamlit>=1.30.0
+sentence-transformers==2.2.2
+torch==1.13.1
+transformers==4.25.1
+scikit-learn>=1.2.2
 pandas>=1.5.3
 plotly>=5.11.0
-scikit-learn>=1.2.2
-matplotlib
 jinja2
-streamlit>=1.30.0
-sentence-transformers>=2.2.2
-torch==1.13.1
+matplotlib
+flask
 
 
 
