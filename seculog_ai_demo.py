@@ -16,18 +16,28 @@ except ImportError:
 
 st.set_page_config(page_title="SecuLog AI - Live Demo", layout="wide")
 
-# Chart functions
+# === Robust Chart Functions ===
+
 def make_event_chart(df):
+    if 'event' not in df.columns or df['event'].dropna().empty:
+        st.warning("No 'event' data available to plot. Please upload a CSV with an 'event' column.")
+        return go.Figure()
     event_counts = df['event'].value_counts()
-    fig = go.Bar(x=event_counts.index, y=event_counts.values)
+    fig = go.Figure([go.Bar(x=event_counts.index, y=event_counts.values)])
+    fig.update_layout(title="Event Types", xaxis_title="Event", yaxis_title="Count")
     return fig
 
 def make_top_ip_chart(df):
+    if 'source_ip' not in df.columns or df['source_ip'].dropna().empty:
+        st.warning("No 'source_ip' data available to plot. Please upload a CSV with a 'source_ip' column.")
+        return go.Figure()
     top_ips = df['source_ip'].value_counts().nlargest(5)
-    fig = go.Pie(labels=top_ips.index, values=top_ips.values)
+    fig = go.Figure([go.Pie(labels=top_ips.index, values=top_ips.values)])
+    fig.update_layout(title="Top 5 Source IPs")
     return fig
 
-# App layout
+# === App Layout ===
+
 st.title("🔍 SecuLog AI - Live AI-Powered Security Log Analyzer (Lite Demo)")
 
 st.markdown("""
@@ -38,14 +48,21 @@ st.markdown("""
 *Note: Full Semantic Search is available in the local version of this app.*
 """)
 
-# Upload CSV
+# Offer a sample CSV download for new users
+with st.expander("Need a sample log file? Download one here."):
+    st.markdown(
+        "[Download sample_logs.csv](https://github.com/tesherakimbrough/seculog-ai/raw/main/data/sample_logs.csv)"
+    )
+
+# File uploader and user-friendly column debugging
 uploaded_file = st.file_uploader("Upload Security Log (CSV)", type=['csv'])
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.write("### Sample Log Data", df.head())
+    st.write("Columns detected in uploaded file:", list(df.columns))
 
-    # Tabs → Lite version (3 tabs)
+    # Streamlit Tabs
     tab1, tab2, tab3 = st.tabs(["📝 Log Summarization", "🤖 RAG Q&A", "📈 Visual Analytics"])
 
     with tab1:
@@ -83,7 +100,6 @@ Logs:
                 if rag_query:
                     # Simple RAG for demo → return first 5 log lines as context
                     retrieved_logs = log_lines[:5]
-
                     rag_prompt = f"""
 You are a security analyst AI. Based on the following relevant log entries, answer this question:
 
@@ -107,3 +123,6 @@ Answer:
 
         st.write("### Top 5 Source IPs Chart")
         st.plotly_chart(make_top_ip_chart(df))
+
+else:
+    st.info("Upload a CSV file to begin analysis. For demo, use the [sample log file](https://github.com/tesherakimbrough/seculog-ai/raw/main/data/sample_logs.csv).")

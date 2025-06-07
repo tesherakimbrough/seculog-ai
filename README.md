@@ -105,7 +105,17 @@ Visualizations help quickly spot trends and suspicious activity in your logs.
 |:----------:|:---------:|
 | ![Light Mode](screenshots/lightmode.png) | ![Dark Mode](screenshots/darkmode.png) |
 
-**Live AI Demo Features:** Try out semantic search, LLM-based summarization, and security Q&A on your own logs!
+## ✨ AI-Powered Features
+
+**Live Demo (Streamlit Cloud):**
+- LLM-based Log Summarization 📝
+- RAG-powered Security Q&A 🤖
+- Interactive Visual Analytics 📈
+
+**Available in Local Version:**
+- Full Semantic Search using SentenceTransformers and vector search.
+
+*Note: Due to Streamlit Cloud limitations, Semantic Search is available in the local version only.*
 
 ---
 ## 🛡️ How It Works
