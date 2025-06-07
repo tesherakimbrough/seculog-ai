@@ -210,5 +210,3 @@ Answer:
         st.write("### Top 5 Source IPs Chart")
         st.plotly_chart(make_top_ip_chart(df))
 
-else:
-    st.info("Upload a CSV file to begin analysis. For demo, use the [sample log file](https://github.com/tesherakimbrough/seculog-ai/raw/main/data/sample_logs.csv).")
